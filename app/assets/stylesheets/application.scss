@@ -1,2 +1,10 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
+
+main {
+  margin: 66px 15px;
+}
+
+a:hover {
+  text-decoration: none;
+}
