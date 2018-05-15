@@ -1,0 +1,12 @@
+<div class="row">
+  <div class="col-md-10">
+    <h1><%= @project.title %></h1>
+    <h4><%= @project.description %></h4>
+  </div>
+  <div class="col-md-2 text-right">
+    <%= link_to "Edit Project", edit_project_path(@project), class: 'btn btn-primary' %>
+    <br />
+    <br />
+    <%= link_to "Delete Project", project_path(@project), class: 'btn btn-danger', method: :delete, data: {confirm: "Are you sure you want to delete #{@project.title}?"} %>
+  </div>
+</div>

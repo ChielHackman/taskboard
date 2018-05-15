@@ -1,33 +1,54 @@
 require "rails_helper"
 
-RSpec.feature "CRUD project", :type => :feature do
-  scenario "User creates a new project" do
-    visit "/projects"
-
-    click_button "New Project"
-    fill_in("project_title", :with => "My Project")
-    fill_in("project_description", :with => "My Project Description")
-    within('#newProjectModal') do
-      click_button('Create Project', wait: 5) #wait for it..
+RSpec.feature "Project Features", :type => :feature do
+  context 'create new project' do
+    before(:each) do
+      visit '/projects/new'
+        fill_in 'project_title', with: 'My Project'
     end
 
-   #NOTE:
-   #REMOVE ME TO CONTINUE ==============================
-   puts "BEFORE: 👁 " + body + " 👁"
-   expect(page).to have_selector ".alert", text: "Project was successfully created."
-   puts "AFTER: 👁 " + body + " 👁"
-  # element we are looking for is:
-  # <div class="alert alert-success">Project was successfully created.</div>
-  # ⚠️ As you can see in your console...its not there and wil never be found with capybara only... because its being injected with javascript. thats where the Selenium Driver, Poldergeist or PhantomJS works out well i think.....
-  #REMOVE ME END ==============================
+    scenario "should be successful" do
+      fill_in 'project_description', with: 'My Project Description'
 
+      click_button 'Create Project'
+      expect(page).to have_content 'Project was successfully created.'
+    end
+
+    scenario "should fail" do
+      click_button 'Create Project'
+      expect(page).to have_content 'Please provide a description for your project.'
+    end
   end
 
-  scenario "User selects a single project" do
-    visit "/projects"
+  context 'updates a project' do
+    scenario "should be successful" do
+      project = Project.create(title: "My awesome project", description: "Testing with RSpec and Capybara")
+      visit edit_project_path(project)
+      fill_in 'project_title', with: 'Changed title'
+      fill_in 'project_description', with: 'Changed description'
 
-    click_link "link_to_project"
+      click_button 'Update Project'
+      expect(page).to have_content 'Project was successfully updated.'
+      expect(page).to have_content 'Changed title'
+    end
 
-    expect(page).to have_text("Members")
+    scenario "should fail" do
+      project = Project.create(title: "My awesome project", description: "Testing with RSpec and Capybara")
+      visit edit_project_path(project)
+      fill_in 'project_title', with: ''
+
+      click_button 'Update Project'
+      expect(page).to have_content 'Please provide a title for your project'
+    end
+  end
+
+  context 'destroy project' do
+    scenario "should be successful" do
+      project = Project.create(title: "My awesome project", description: "Testing with RSpec and Capybara")
+      visit project_path(project)
+      expect { click_link 'Delete Project' }.to change(Project, :count).by(-1)
+
+      expect(page).to have_content 'Project was successfully deleted.'
+    end
   end
 end

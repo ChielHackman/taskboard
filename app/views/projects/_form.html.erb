@@ -1,0 +1,32 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    Create a new project
+  </div>
+  <div class="panel-body">
+    <%= form_for @project do |f| %>
+      <%= f.text_field :title, placeholder: 'Project title', class: 'form-control', autofocus: true %>
+      <% if @project.errors.any? %>
+        <% @project.errors[:title].each do |msg| %>
+          <p class="text-danger"><%= msg %></p>
+        <% end %>
+      <% else %>
+        <br />
+      <% end %>
+      <%= f.text_field :description, placeholder: 'Project description', class: 'form-control' %>
+      <% if @project.errors.any? %>
+        <% @project.errors[:description].each do |msg| %>
+          <p class="text-danger"><%= msg %></p>
+        <% end %>
+      <% else %>
+        <br />
+      <% end %>
+      <br />
+      <%= f.submit class: 'btn btn-success', name: button_name %>
+      <% if @project.new_record? %>
+        <%= link_to 'Cancel', projects_path, class: 'btn btn-danger' %>
+      <% else %>
+        <%= link_to 'Cancel', project_path(@project), class: 'btn btn-danger' %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

@@ -3,7 +3,7 @@
     <h1>
       Tasks Board
       <span class="pull-right">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newProjectModal">New Project</button>
+        <%= link_to "New Project", new_project_path, class: 'btn btn-primary' %>
       </span>
     </h1>
   </div>
@@ -13,39 +13,14 @@
   <div class="row">
     <% project_group.each do |project| %>
       <div class="col-md-4">
-        <%= link_to project_path(project), id: 'link_to_project' do %>
-          <div class="panel panel-primary">
-            <div class="panel-heading"><%= project.title %></div>
-            <div class="panel-body"><%= project.description %></div>
-            <div class="panel-footer text-right">
-              <button class="btn btn-sm btn-info">Edit</button>
-              <button class="btn btn-sm btn-danger">Delete</button>
-            </div>
+        <div class="panel panel-primary">
+          <div class="panel-heading"><%= project.title %></div>
+          <div class="panel-body"><%= project.description %></div>
+          <div class="panel-footer text-right">
+            <%= link_to "Details", project_path(project), class: 'btn btn-sm btn-info' %>
           </div>
-        <% end %>
+        </div>
       </div>
     <% end %>
   </div>
 <% end %>
-
-<div id="newProjectModal" class="modal fade" role="dialog">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Create a new project</h4>
-      </div>
-      <div class="modal-body">
-        <%= form_for Project.new do |f| %>
-        <%= f.text_field :title, placeholder: 'Project title', class: 'form-control' %>
-        <br />
-        <%= f.text_field :description, placeholder: 'Project description', class: 'form-control' %>
-      </div>
-      <div class="modal-footer">
-        <%= f.submit 'Create Project', class: 'btn btn-success' %>
-        <% end %>
-        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-      </div>
-    </div>
-  </div>
-</div>
