@@ -10,3 +10,27 @@
     <%= link_to "Delete Project", project_path(@project), class: 'btn btn-danger', method: :delete, data: {confirm: "Are you sure you want to delete #{@project.title}?"} %>
   </div>
 </div>
+<div class="row">
+  <div class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Tasks
+      </div>
+      <% @tasks.each do |task| %>
+        <div class="panel panel-success">
+          <div class="panel-heading">
+            <%= task.title %>
+          </div>
+        </div>
+      <% end %>
+      <%= form_for [@project, @task] do |f| %>
+        <div class="input-group">
+          <%= f.text_field :title, class: 'form-control' %>
+          <span class="input-group-btn">
+            <%= f.submit 'Add Task', class: 'btn btn-primary' %>
+          </span>
+        </div>
+      <% end %>
+      </div>
+  </div>
+</div>

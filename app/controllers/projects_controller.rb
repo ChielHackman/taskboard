@@ -23,6 +23,8 @@ class ProjectsController < ApplicationController
   end
 
   def show
+    @task = @project.tasks.build
+    @tasks = Task.where(project_id: @project.id)
   end
 
   def update
